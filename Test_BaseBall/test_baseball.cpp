@@ -7,7 +7,7 @@ using namespace std;
 class BaseballFixture : public testing::Test
 {
 public:
-	Baseball game;
+	Baseball game{ "123" };
 
 	void assertIllegalArgument(string guessNumber) {
 		try {
@@ -24,4 +24,12 @@ TEST_F(BaseballFixture, ThrowExceptionWhenInvalidCase) {
 	assertIllegalArgument("12");
 	assertIllegalArgument("12s");
 	assertIllegalArgument("121");
+}
+
+TEST_F(BaseballFixture, ReturnSolvedResultIfMatchedNumber) {
+	GuessResult result = game.guess("123");
+
+	EXPECT_TRUE(result.solved);
+	EXPECT_EQ(result.strikes, 3);
+	EXPECT_EQ(result.balls, 0);
 }
