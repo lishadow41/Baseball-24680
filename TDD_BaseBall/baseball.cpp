@@ -26,36 +26,21 @@ public:
 		}
 
 		GuessResult result{ false, 0, 0 };
-		if (is2StrikesAnd0Balls(guessNumber)) {
-			result.strikes = 2;
-			result.balls = 0;
+		for (int idx = 0; idx < 3; idx++) {
+			char guessChar = guessNumber[idx];
+			if (isInQuestion(guessChar) == false) continue;
+			if (isStrike(guessChar, idx)) result.strikes++;
+			else result.balls++;
 		}
-		else {
-			result.strikes = 1;
-			result.balls = 2;
-		}
-
 		return result;
 	}
 
-	bool is2StrikesAnd0Balls(const std::string& guessNumber)
-	{
-		if (guessNumber[0] == _question[0]
-			&& guessNumber[1] == _question[1]
-			&& guessNumber[2] != _question[2]) {
-			return true;
-		}
-		if (guessNumber[0] == _question[0]
-			&& guessNumber[1] != _question[1]
-			&& guessNumber[2] == _question[2]) {
-			return true;
-		}
-		if (guessNumber[0] != _question[0]
-			&& guessNumber[1] == _question[1]
-			&& guessNumber[2] == _question[2]) {
-			return true;
-		}
-		return false;
+	bool isInQuestion(const char guessChar) {
+		return _question.find(guessChar) != string::npos;
+	}
+
+	bool isStrike(const char guessChar, int index) {
+		return _question[index] == guessChar;
 	}
 
 	void assertIllegalArgument(const std::string& guessNumber) {
