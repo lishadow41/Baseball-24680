@@ -52,3 +52,22 @@ INSTANTIATE_TEST_CASE_P(
 		"125", "143", "523"
 	)
 );
+
+class Baseball1Strikes2BallFixture : public BaseballFixture {};
+
+TEST_P(Baseball1Strikes2BallFixture, ReturnUnSolvedResult1Strikes2Balls) {
+	string guessNumber = GetParam();
+	GuessResult result = game.guess(guessNumber);
+
+	EXPECT_FALSE(result.solved);
+	EXPECT_EQ(result.strikes, 1);
+	EXPECT_EQ(result.balls, 2);
+}
+
+INSTANTIATE_TEST_CASE_P(
+	Baseball1Strikes2BallFixtures,
+	Baseball1Strikes2BallFixture,
+	::testing::Values(
+		"132", "321", "213"
+	)
+);

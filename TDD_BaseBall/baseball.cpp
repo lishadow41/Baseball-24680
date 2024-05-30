@@ -30,6 +30,10 @@ public:
 			result.strikes = 2;
 			result.balls = 0;
 		}
+		else {
+			result.strikes = 1;
+			result.balls = 2;
+		}
 
 		return result;
 	}
