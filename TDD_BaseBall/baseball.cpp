@@ -25,7 +25,33 @@ public:
 			return { true, 3, 0 };
 		}
 
-		return { false, 2, 0 };
+		GuessResult result{ false, 0, 0 };
+		if (is2StrikesAnd0Balls(guessNumber)) {
+			result.strikes = 2;
+			result.balls = 0;
+		}
+
+		return result;
+	}
+
+	bool is2StrikesAnd0Balls(const std::string& guessNumber)
+	{
+		if (guessNumber[0] == _question[0]
+			&& guessNumber[1] == _question[1]
+			&& guessNumber[2] != _question[2]) {
+			return true;
+		}
+		if (guessNumber[0] == _question[0]
+			&& guessNumber[1] != _question[1]
+			&& guessNumber[2] == _question[2]) {
+			return true;
+		}
+		if (guessNumber[0] != _question[0]
+			&& guessNumber[1] == _question[1]
+			&& guessNumber[2] == _question[2]) {
+			return true;
+		}
+		return false;
 	}
 
 	void assertIllegalArgument(const std::string& guessNumber) {

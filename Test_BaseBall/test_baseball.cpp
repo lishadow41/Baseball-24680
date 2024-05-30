@@ -4,7 +4,7 @@
 #include <stdexcept>
 using namespace std;
 
-class BaseballFixture : public testing::Test
+class BaseballFixture : public testing::TestWithParam<string>
 {
 public:
 	Baseball game{ "123" };
@@ -34,26 +34,21 @@ TEST_F(BaseballFixture, ReturnSolvedResultIfMatchedNumber) {
 	EXPECT_EQ(result.balls, 0);
 }
 
-TEST_F(BaseballFixture, ReturnUnSolvedResult2Strikes0BallsCase1) {
-	GuessResult result = game.guess("125");
+class Baseball2Strikes0BallFixture : public BaseballFixture {};
+
+TEST_P(Baseball2Strikes0BallFixture, ReturnUnSolvedResult2Strikes0Balls) {
+	string guessNumber = GetParam();
+	GuessResult result = game.guess(guessNumber);
 
 	EXPECT_FALSE(result.solved);
 	EXPECT_EQ(result.strikes, 2);
 	EXPECT_EQ(result.balls, 0);
 }
 
-TEST_F(BaseballFixture, ReturnUnSolvedResult2Strikes0BallsCase2) {
-	GuessResult result = game.guess("143");
-
-	EXPECT_FALSE(result.solved);
-	EXPECT_EQ(result.strikes, 2);
-	EXPECT_EQ(result.balls, 0);
-}
-
-TEST_F(BaseballFixture, ReturnUnSolvedResult2Strikes0BallsCase3) {
-	GuessResult result = game.guess("523");
-
-	EXPECT_FALSE(result.solved);
-	EXPECT_EQ(result.strikes, 2);
-	EXPECT_EQ(result.balls, 0);
-}
+INSTANTIATE_TEST_CASE_P(
+	Baseball2Strikes0BallFixtures,
+	Baseball2Strikes0BallFixture,
+	::testing::Values(
+		"125", "143", "523"
+	)
+);
